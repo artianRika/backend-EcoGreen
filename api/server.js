@@ -17,6 +17,13 @@ app.get('/', (req, res) =>{
 
 app.post('/locations/:id', (req, res) =>{
     const id = req.params.id
+    
+    const itemExists = list.some(item => item.id === id);
+
+    if (itemExists) {
+        return res.status(400).json({ message: 'An item with the same id already exists.' });
+    }
+
     const {lat, lng} = req.body
 
     if (lat === undefined || lng === undefined) {
@@ -28,6 +35,18 @@ app.post('/locations/:id', (req, res) =>{
 
 
     res.status(201).json({ message: 'Data added successfully', newData });
+})
+
+app.delete('/locations/:id', (req, res) =>{
+    const id = req.params.id;
+
+    list = list.filter(item => item.id !== id);
+    res.json({ message: 'Data deleted successfully' });
+})
+
+
+app.delete('/locations/:lng/:lat', (req, res) =>{
+  
 })
 
 app.listen(PORT, ()=>{
