@@ -8,11 +8,16 @@ app.get('/', (req, res) =>{
     res.json(list)
 })
 
-app.post('/locations/:id', (req, res) =>{
+app.post('/locations/:id/:lat/:lng/', (req, res) =>{
     const id = req.params.id
+    const lat = re.params.lat 
+    const lng = re.params.lng 
     const newData = req.body
 
-    list.push({id, ...newData})
+    console.log(newData)
+
+    list.push({id, lat,lng})
+
     res.status(201).json({ message: 'Data added successfully', list });
 })
 
