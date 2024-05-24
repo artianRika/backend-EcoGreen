@@ -1,6 +1,7 @@
 var express = require('express')
 var app = express()
 const PORT = 3000
+app.use(express.json());
 
 var list = [
     { 
@@ -16,10 +17,15 @@ app.get('/', (req, res) =>{
 
 app.post('/locations/:id', (req, res) =>{
     const id = req.params.id
-    const newData = req.body
+    const {lat, lng} = req.body
 
+    if (lat === undefined || lng === undefined) {
+        return res.status(400).json({ message: 'Missing required fields: lat and lng' });
+    }
 
-    list.push({id, newData})
+    const newData = {id, lat, lng};
+    list.push(newData);
+
 
     res.status(201).json({ message: 'Data added successfully', newData });
 })
