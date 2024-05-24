@@ -9,7 +9,11 @@ app.get('/', (req, res) =>{
 })
 
 app.post('/locations/:id', (req, res) =>{
+    const id = req.params.id
+    const newData = req.body
 
+    list.push({id, ...newData})
+    res.status(201).json({ message: 'Data added successfully', list });
 })
 
 app.listen(PORT, ()=>{
