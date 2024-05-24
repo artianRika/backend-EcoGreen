@@ -5,7 +5,7 @@ app.use(express.json());
 
 var list = [
     { 
-        "id": "00",
+        "id": 0,
         "lat": 0,
         "lng": 0
     }
