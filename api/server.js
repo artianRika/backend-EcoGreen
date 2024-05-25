@@ -4,8 +4,17 @@ const PORT = 3000;
 
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
-    // You can set other CORS headers here if needed
+    // Allow requests from any origin
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  // Allow specific methods
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+  // Allow specific headers
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  // Allow preflight requests to be cached for 24 hours (86400 seconds)
+  res.setHeader('Access-Control-Max-Age', '86400');
     next();
   });
 const { connectToDatabase, getDb } = require('./database');
