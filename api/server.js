@@ -3,13 +3,7 @@ var app = express()
 const PORT = 3000
 app.use(express.json());
 
-var list = [
-    { 
-        "id": 0,
-        "lat": 0,
-        "lng": 0
-    }
-]
+var list = []
 
 app.get('/', (req, res) =>{
     res.json(list)
@@ -24,7 +18,7 @@ app.post('/locations/:id', (req, res) =>{
         return res.status(400).json({ message: 'An item with the same id already exists.' });
     }
 
-    let {lat, lng} = req.body
+    let {fullName, locationName, lat, lng} = req.body
     lat = parseInt(lat)
     lng = parseInt(lng)
 
@@ -32,7 +26,7 @@ app.post('/locations/:id', (req, res) =>{
         return res.status(400).json({ message: 'Missing required fields: lat and lng' });
     }
 
-    const newData = {id, lat, lng};
+    const newData = {id, fullName, locationName, lat, lng};
     list.push(newData);
 
 
