@@ -65,7 +65,7 @@ app.get('/', async (req, res) => {
     }
   });
 
-app.delete('/locations/:id', async (req, res) => {
+  app.delete('/locations/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
       return res.status(400).json({ message: 'Invalid ID format' });
@@ -73,8 +73,11 @@ app.delete('/locations/:id', async (req, res) => {
   
     const db = getDb();
     try {
-      const result = await db.collection('locations').deleteOne({ id });
-      if (result.deletedCount === 1) {
+      const result = await db.collection('locations').updateOne(
+        { _id: 'list' },
+        { $pull: { items: { id } } }
+      );
+      if (result.modifiedCount === 1) {
         res.json({ message: 'Data deleted successfully' });
       } else {
         res.status(404).json({ message: 'No data with such ID' });
@@ -85,7 +88,7 @@ app.delete('/locations/:id', async (req, res) => {
     }
   });
 
-app.delete('/locations/:lat/:lng', async (req, res) => {
+  app.delete('/locations/:lat/:lng', async (req, res) => {
     const lat = parseFloat(req.params.lat);
     const lng = parseFloat(req.params.lng);
   
@@ -95,8 +98,11 @@ app.delete('/locations/:lat/:lng', async (req, res) => {
   
     const db = getDb();
     try {
-      const result = await db.collection('locations').deleteOne({ lat, lng });
-      if (result.deletedCount === 1) {
+      const result = await db.collection('locations').updateOne(
+        { _id: 'list' },
+        { $pull: { items: { lat, lng } } }
+      );
+      if (result.modifiedCount === 1) {
         res.json({ message: 'Data deleted successfully' });
       } else {
         res.status(404).json({ message: 'No data with such lat and lng' });
@@ -106,6 +112,7 @@ app.delete('/locations/:lat/:lng', async (req, res) => {
       res.status(500).json({ message: 'Internal Server Error' });
     }
   });
+  
 
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);
