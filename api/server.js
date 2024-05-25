@@ -19,8 +19,8 @@ app.post('/locations/:id', (req, res) =>{
     }
 
     let {fullName, locationName, lat, lng} = req.body
-    lat = parseDouble(lat)
-    lng = parseDouble(lng)
+    lat = parseFloat(lat)
+    lng = parseFloat(lng)
 
     if (lat === undefined || lng === undefined) {
         return res.status(400).json({ message: 'Missing required fields: lat and lng' });
@@ -52,8 +52,8 @@ app.delete('/locations/:id', (req, res) =>{
 
 
 app.delete('/locations/:lat/:lng', (req, res) =>{
-    const lat = parseDouble(req.params.lat); 
-    const lng = parseDouble(req.params.lng);
+    const lat = parseFloat(req.params.lat); 
+    const lng = parseFloat(req.params.lng);
 
     const index = list.findIndex(item => item.lat === lat && item.lng === lng);
 
