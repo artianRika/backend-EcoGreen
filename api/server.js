@@ -40,8 +40,18 @@ app.post('/locations/:id', (req, res) =>{
 app.delete('/locations/:id', (req, res) =>{
     const id = req.params.id;
 
-    list = list.filter(item => item.id !== id);
-    res.json({ message: 'Data deleted successfully' });
+    var exists = list.find(item => 
+        item.id === id
+    )
+
+    if(exists){
+
+        list = list.filter(item => item.id !== id);
+        res.json({ message: 'Data deleted successfully' });
+    }else{
+        res.json({ message: 'No data with such id' });
+    }
+
 })
 
 
