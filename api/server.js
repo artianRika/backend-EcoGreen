@@ -16,7 +16,7 @@ app.get('/', (req, res) =>{
 })
 
 app.post('/locations/:id', (req, res) =>{
-    const id = req.params.id
+    const id = parseInt(req.params.id)
     
     const itemExists = list.some(item => item.id === id);
 
@@ -24,7 +24,9 @@ app.post('/locations/:id', (req, res) =>{
         return res.status(400).json({ message: 'An item with the same id already exists.' });
     }
 
-    const {lat, lng} = req.body
+    let {lat, lng} = req.body
+    lat = parseInt(lat)
+    lng = parseInt(lng)
 
     if (lat === undefined || lng === undefined) {
         return res.status(400).json({ message: 'Missing required fields: lat and lng' });
@@ -38,9 +40,9 @@ app.post('/locations/:id', (req, res) =>{
 })
 
 app.delete('/locations/:id', (req, res) =>{
-    const id = req.params.id;
+    const id = parseInt(req.params.id);
 
-    var exists = list.find(item => 
+    const exists = list.find(item => 
         item.id === id
     )
 
@@ -55,8 +57,18 @@ app.delete('/locations/:id', (req, res) =>{
 })
 
 
-app.delete('/locations/:lng/:lat', (req, res) =>{
-  
+app.delete('/locations/:lat/:lng', (req, res) =>{
+    const lat = parseInt(req.params.lat); 
+    const lng = parseInt(req.params.lng);
+
+    const index = list.findIndex(item => item.lat === lat && item.lng === lng);
+
+    if (index !== -1) {
+        list.splice(index, 1);
+        res.json({ message: 'Data deleted successfully' });
+    } else {
+        res.json({ message: 'No data with such lat and lng' });
+    }
 })
 
 app.listen(PORT, ()=>{
