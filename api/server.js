@@ -57,36 +57,28 @@ app.get('/', async (req, res) => {
   app.post('/locations/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
-        return res.status(400).json({ message: 'Invalid ID format' });
+      return res.status(400).json({ message: 'Invalid ID format' });
     }
-
+  
     const db = getDb();
     const newData = {
-        id,
-        ...req.body,
-        lat: parseFloat(req.body.lat),
-        lng: parseFloat(req.body.lng)
+      id,
+      ...req.body,
+      lat: parseFloat(req.body.lat),
+      lng: parseFloat(req.body.lng)
     };
-
+  
     try {
-        // Handle image upload if exists
-        if (req.files && req.files.image) {
-            const image = req.files.image;
-            const imagePath = path.join(__dirname, 'uploads', `${id}-${image.name}`);
-            await image.mv(imagePath);
-            newData.imagePath = imagePath;
-        }
-
-        await db.collection('locations').updateOne(
-            { _id: 'list' },
-            { $push: { items: newData } }
-        );
-        res.status(201).json({ message: 'Data added successfully', newData });
+      await db.collection('locations').updateOne(
+        { _id: 'list' },
+        { $push: { items: newData } }
+      );
+      res.status(201).json({ message: 'Data added successfully', newData });
     } catch (error) {
-        console.error('Error adding data to MongoDB', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error adding data to MongoDB', error);
+      res.status(500).json({ message: 'Internal Server Error' });
     }
-});
+  });
 
   app.delete('/locations/:id', async (req, res) => {
     const id = parseInt(req.params.id);
