@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-//expe
+//exp s
 app.use((req, res, next) => {
     // Allow requests from any origin
   res.setHeader('Access-Control-Allow-Origin', '*');
