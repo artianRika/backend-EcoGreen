@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 
 //exp jjj
+//exp s
 app.use((req, res, next) => {
     // Allow requests from any origin
   res.setHeader('Access-Control-Allow-Origin', '*');
